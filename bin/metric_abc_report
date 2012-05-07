@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require File.join(File.dirname(__FILE__), "..", "lib", 'metric_abc_report')
+
+if ARGV.empty?
+  puts "USAGE:\nmetric_abc_report [options] output/file/name"
+  puts "\n  Options:"
+  puts "\n    -f: Format, one of - html, csv"
+  puts "\n    --format=X: Format, one of - html, csv"
+end
+
+valid_formats = ['html', 'csv']
+file_name = ARGV.delete_at(ARGV.size - 1)
+format_regex = /--format=(\w+)/
+format = 'html'
+format = ARGV[1] if ARGV[0] == '-f'
+format = format_regex.match(ARGV[0])[1] if /--format=(\w+)/ =~ ARGV[0]
+
+raise "ERROR: Cannot export as invalid format #{format}" unless valid_formats.includes?(format)
+
+
