@@ -9,10 +9,14 @@ module MetricAbcReport
     end
 
     def most_complex(max_complexity = 1)
+      file_names = Hash.new
       most_complex_files = []
 
       self.files.sort {|a, b| a.score <=> b.score}.each do |file|
-        most_complex_files << file unless file.score < max_complexity
+        if file_names[file.name].nil? && file.score >= max_complexity
+          most_complex_files << file
+          file_names[file.name] = true
+        end
       end
 
       most_complex_files.uniq
@@ -31,8 +35,6 @@ module MetricAbcReport
 
   private
 
-    # ./config/initializers/oracle_enhanced_adapter_hack.rb > ActiveRecord > ConnectionAdapters > OracleEnhancedAdapter > prefetch_primary_key?: 1
-    # ./lib/content_items/photo_manager.rb > ContentItems > PhotoManager > to_hash: 1
     def parse_line(line)
       file_symbols = line.split(/ > /)
       file_name = file_symbols.delete_at(0).strip

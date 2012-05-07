@@ -11,19 +11,21 @@ describe MetricAbcReport::Report do
   end
 
   describe 'most_complex' do
-    before :all do
+    before :each do
       @report.parse(@command_line_output)
     end
 
     it 'sorts by complexity and returns all files' do
       most_complex_files = @report.most_complex
       most_complex_files.size.should == 2
-      most_complex_files[0].name.should == './lib/module/foo/bar.rb'
-      most_complex_files[1].name.should == './app/models/foo.rb'
+      most_complex_files[0].name.should == './app/models/foo.rb'
+      most_complex_files[1].name.should == './lib/module/foo/bar.rb'
     end
 
     it 'sorts by complexity and returns only files meeting a certain threshold' do
-      pending
+      most_complex_files = @report.most_complex(5)
+      most_complex_files.size.should == 1
+      most_complex_files[0].name.should == './lib/module/foo/bar.rb'
     end
   end
 
