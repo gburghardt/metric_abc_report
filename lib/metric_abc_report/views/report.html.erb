@@ -77,10 +77,10 @@
       <dd class="score-<%= MetricAbcReport::FileReport.score_threshold_name(@average_complexity_score, @high_score, @medium_score) %>"><%= @average_complexity_score %></dd>
 
       <dt>Low:</dt>
-      <dd class="score-low"><%= @least_complex.score %> (<%= @least_complex.name %>)</dd>
+      <dd class="score-low"><%= @least_complex.score %> (<%= @least_complex.formatted_symbol %> in <%= @least_complex.name %>)</dd>
 
       <dt>High:</dt>
-      <dd class="score-high"><%= @most_complex.score %> (<%= @most_complex.name %>)</dd>
+      <dd class="score-high"><%= @most_complex.score %> (<%= @most_complex.formatted_symbol %> in <%= @most_complex.name %>)</dd>
     </dl>
 
     <table>
