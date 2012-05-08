@@ -1,6 +1,6 @@
 module MetricAbcReport
 
-  class File
+  class FileReport
     attr_accessor :name, :score, :symbols
 
     def initialize(name = nil, score = nil, symbols = nil)
