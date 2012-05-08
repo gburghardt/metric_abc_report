@@ -7,10 +7,10 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/gburghardt/metric_abc_report"
   s.authors = ["Greg Burghardt"]
   s.files = [
+    'Gemfile',
     'Rakefile',
     'VERSION',
     'lib/metric_abc_report.rb'
   ]
   s.require_paths = ['lib']
-  s.add_development_dependency 'metric_abc', '~>0.0.3'
 end
