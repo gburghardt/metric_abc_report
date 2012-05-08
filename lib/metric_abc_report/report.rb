@@ -44,7 +44,10 @@ module MetricAbcReport
       file_symbols = line.split(/ > /)
       file_name = file_symbols.delete_at(0).strip
       last_file_symbol = file_symbols.last
-      match = last_file_symbol.match(/^(\w+): (\d+)/)
+      match = last_file_symbol.match(/^([\w?=\[\]]+): (\d+)/)
+      raise "Could not match line: \"#{line}\"" if match.nil?
+      raise "Could not match the method name: \"#{line}\"" if match[1].nil?
+      raise "Could not match the score: \"#{line}\"" if match[2].nil?
       file_score = match[2].to_i
       file_symbols[file_symbols.size - 1] = match[1]
       [file_name, file_symbols, file_score]
