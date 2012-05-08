@@ -66,5 +66,23 @@ describe MetricAbcReport::Report do
       file_score.should == 10
       file_symbols.should == ['Module', 'Foo', 'bar']
     end
+
+    it 'parses with a bang!' do
+      file_name, file_symbols, file_score = @report.send(:parse_line, './app/models/foo.rb > Foo > bar!: 3')
+      file_score.should == 3
+      file_symbols.should == ['Foo', 'bar!']
+    end
+
+    it 'parses methods with a ?' do
+      file_name, file_symbols, file_score = @report.send(:parse_line, './app/models/foo.rb > Foo > bar?: 3')
+      file_score.should == 3
+      file_symbols.should == ['Foo', 'bar?']
+    end
+
+    it 'parses methods ending with []' do
+      file_name, file_symbols, file_score = @report.send(:parse_line, './app/models/foo.rb > Foo > bar[]: 3')
+      file_score.should == 3
+      file_symbols.should == ['Foo', 'bar[]']
+    end
   end
 end
