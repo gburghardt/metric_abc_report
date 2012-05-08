@@ -2,22 +2,85 @@
   <head>
     <title>Metric ABC Complexity Report (<%= @date_created %>)</title>
     <style type="text/css" media="all">
-      
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+      }
+      dd {
+        border-bottom: 1pt solid #000;
+        margin: 0;
+        padding: 3pt 0 3pt 4.75em;
+      }
+      dl {
+        border: 1pt solid #000;
+        border-bottom-width: 0;
+      }
+      dl:after {
+        clear: both;
+        content: " ";
+      }
+      dt {
+        float: left;
+        margin-left: 3pt;
+        margin-top: 3pt;
+        text-align: right;
+        width: 3.9em;
+      }
+      table {
+        border-collapse: collapse;
+        border: 0 solid #000;
+        border-left-width: 1pt;
+        border-right-width: 1pt;
+        width: 100%;
+      }
+      td, th {
+        border: 0 solid #000;
+        border-bottom-width: 1pt;
+        border-top-width: 1pt;
+        padding: 3pt 8pt;
+        text-align: left;
+      }
+      td.score, th.score {
+        text-align: right;
+      }
+      td.file-name, td.symbol {
+        font-family: Monaco, Consolas, "Courier New", Courier, monospace;
+      }
+      th {
+        background-color: #f0f0f0;
+      }
+      dd.score-high,
+      tr.score-high td {
+        background-color: #fcc;
+        color: #600;
+      }
+      dd.score-medium,
+      tr.score-medium td {
+        background-color: #ffc;
+        color: #660;
+      }
+      dd.score-low,
+      tr.score-low td {
+        background-color: #cfc;
+        color: #060;
+      }
     </style>
   </head>
   <body>
     <h1>Metric ABC Complexity Report</h1>
-    <h2>Date: <%= @date_created %></h2>
 
     <dl>
+      <dt>Date:</dt>
+      <dd><%= @date_created %></dd>
+
       <dt>Average:</dt>
-      <dd><%= @average_complexity_score %></dd>
+      <dd class="score-<%= MetricAbcReport::FileReport.score_threshold_name(@average_complexity_score, @high_score, @medium_score) %>"><%= @average_complexity_score %></dd>
 
       <dt>Low:</dt>
-      <dd><%= @least_complex.score %> (<%= @least_complex.name %>)</dd>
+      <dd class="score-low"><%= @least_complex.score %> (<%= @least_complex.name %>)</dd>
 
       <dt>High:</dt>
-      <dd><%= @most_complex.score %> (<%= @most_complex.name %>)</dd>
+      <dd class="score-high"><%= @most_complex.score %> (<%= @most_complex.name %>)</dd>
     </dl>
 
     <table>
@@ -25,15 +88,15 @@
         <tr>
           <th>File Name</th>
           <th>Symbol</th>
-          <th>Score</th>
+          <th class="score">Score</th>
         </tr>
       </thead>
       <tbody>
         <% @most_complex_files.each do |file| %>
           <tr class="score-<%= file.score_threshold_name(@high_score, @medium_score) %>">
-            <td><%= file.name %></td>
-            <td><%= file.formatted_symbol %></td>
-            <td><%= file.score %></td>
+            <td class="file-name"><%= file.name %></td>
+            <td class="symbol"><%= file.formatted_symbol %></td>
+            <td class="score"><%= file.score %></td>
           </tr>
         <% end %>
       </tbody>

@@ -16,10 +16,7 @@ module MetricAbcReport
       most_complex_files = []
 
       self.files.sort {|a, b| b.score <=> a.score}.each do |file|
-        if file_symbols[file.formatted_symbol].nil? && file.score >= max_complexity
-          most_complex_files << file
-          file_symbols[file.formatted_symbol] = true
-        end
+        most_complex_files << file if file.score >= max_complexity
       end
 
       most_complex_files

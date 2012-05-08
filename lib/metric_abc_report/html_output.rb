@@ -6,13 +6,15 @@ module MetricAbcReport
     def most_complex
       super
       create_general_info
-      
+      render
     end
 
     private
 
     def create_general_info
       @date_created = Time.now
+      @high_score = 20
+      @medium_score = 10
       score_total = 0
 
       @most_complex_files.each do |f|
@@ -25,14 +27,13 @@ module MetricAbcReport
     end
 
     def read_template_file
-      File.open(File.expand_path(File.join(__FILE__, 'views', 'report.html.erb'))).read
+      File.open(File.expand_path(File.join(__FILE__, '..', 'views', 'report.html.erb'))).read
     end
 
     def render
       rhtml = ERB.new(read_template_file)
-      File.open(self.report.output_file, 'w') do |io|
-        io.puts rhtml.run(binding)
-      end
+      File.open(self.report.output_file, 'w') { |io| io.puts(rhtml.result(binding)) }
+      nil
     end
 
   end
