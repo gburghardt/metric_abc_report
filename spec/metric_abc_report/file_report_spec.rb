@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe MetricAbcReport::File do
+describe MetricAbcReport::FileReport do
   describe 'formatted_symbol' do
     before :each do
-      @file = MetricAbcReport::File.new
+      @file = MetricAbcReport::FileReport.new
     end
 
     it 'returns the symbol if there is only one' do
