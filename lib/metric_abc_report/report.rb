@@ -1,6 +1,9 @@
 module MetricAbcReport
   class Report
 
+    FORMAT_HTML = 'html'
+    FORMAT_CSV = 'csv'
+
     attr_accessor :files, :output_file, :output_type
 
     def initialize(output_file = nil, output_type = 'html')
@@ -9,17 +12,17 @@ module MetricAbcReport
     end
 
     def most_complex(max_complexity = 1)
-      file_names = Hash.new
+      file_symbols = Hash.new
       most_complex_files = []
 
-      self.files.sort {|a, b| a.score <=> b.score}.each do |file|
-        if file_names[file.name].nil? && file.score >= max_complexity
+      self.files.sort {|a, b| b.score <=> a.score}.each do |file|
+        if file_symbols[file.formatted_symbol].nil? && file.score >= max_complexity
           most_complex_files << file
-          file_names[file.name] = true
+          file_symbols[file.formatted_symbol] = true
         end
       end
 
-      most_complex_files.uniq
+      most_complex_files
     end
 
     def parse(command_line_output)
@@ -27,10 +30,15 @@ module MetricAbcReport
 
       command_line_output.strip.split(/\n/).each do |line|
         file_name, file_symbols, file_score = parse_line(line)
-        self.files << MetricAbcReport::File.new(file_name, file_score, file_symbols)
+        self.files << MetricAbcReport::FileReport.new(file_name, file_score, file_symbols)
       end
 
       self.files
+    end
+
+    def render
+      view.most_complex
+      puts "Report saved in #{self.output_file}"
     end
 
   private
@@ -43,6 +51,18 @@ module MetricAbcReport
       file_score = match[2].to_i
       file_symbols[file_symbols.size - 1] = match[1]
       [file_name, file_symbols, file_score]
+    end
+
+    def view
+      if @view.nil?
+        if self.output_type == FORMAT_CSV
+          @view = MetricAbcReport::CsvOutput.new(self)
+        else
+          @view = MetricAbcReport::HtmlOutput.new(self)
+        end
+      end
+
+      @view
     end
 
   end

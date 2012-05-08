@@ -17,9 +17,10 @@ describe MetricAbcReport::Report do
 
     it 'sorts by complexity and returns all files' do
       most_complex_files = @report.most_complex
-      most_complex_files.size.should == 2
-      most_complex_files[0].name.should == './app/models/foo.rb'
-      most_complex_files[1].name.should == './lib/module/foo/bar.rb'
+      most_complex_files.size.should == 3
+      most_complex_files[0].formatted_symbol.should == 'Module::Foo.bar'
+      most_complex_files[1].formatted_symbol.should == 'Foo.zar'
+      most_complex_files[2].formatted_symbol.should == 'Foo.bar'
     end
 
     it 'sorts by complexity and returns only files meeting a certain threshold' do
