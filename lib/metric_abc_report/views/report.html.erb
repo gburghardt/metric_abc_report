@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+  <head>
+    <title>Metric ABC Complexity Report (<%= @date_created %>)</title>
+    <style type="text/css" media="all">
+      
+    </style>
+  </head>
+  <body>
+    <h1>Metric ABC Complexity Report</h1>
+    <h2>Date: <%= @date_created %></h2>
+
+    <dl>
+      <dt>Average:</dt>
+      <dd><%= @average_complexity_score %></dd>
+
+      <dt>Low:</dt>
+      <dd><%= @least_complex.score %> (<%= @least_complex.name %>)</dd>
+
+      <dt>High:</dt>
+      <dd><%= @most_complex.score %> (<%= @most_complex.name %>)</dd>
+    </dl>
+
+    <table>
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Symbol</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @most_complex_files.each do |file| %>
+          <tr class="score-<%= file.score_threshold_name(@high_score, @medium_score) %>">
+            <td><%= file.name %></td>
+            <td><%= file.formatted_symbol %></td>
+            <td><%= file.score %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -7,7 +7,7 @@ module MetricAbcReport
     end
 
     def most_complex
-      @files = @report.most_complex
+      @most_complex_files = @report.most_complex
     end
   end
 end
