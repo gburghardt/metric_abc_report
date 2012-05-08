@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
     'lib/metric_abc_report.rb'
   ]
   s.require_paths = ['lib']
+  s.add_dependency 'metric_abc', '~>0.0.3'
 end
